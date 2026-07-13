@@ -130,47 +130,62 @@ void Simulation::initializeNetwork()
 // Main simulation loop
 //
 /////////////////////////////////////////////////////////////
+void Simulation::updateLinks()
+{
+    //--------------------------------------------------
+	// (1) Update link lifetime
+	//--------------------------------------------------
+	for (int i = 0; i < N; i++) {
+		int Tmax = (i < N_E) ? TE : TI;
+		for (auto &link : adj[i]) {
+			int term1 = H(link.lifetime) * (link.lifetime - 1);
+			int term2 = (1 - H(link.lifetime)) * Tmax * node_state[i];
+			link.lifetime = (term1 + term2);
+		}
+	}
+}
+
+void Simulation::computeInputs()
+{
+	//--------------------------------------------------
+	// (2) Compute inputs
+	//--------------------------------------------------
+	for (int i = 0; i < N; i++)
+		node_input[i] = 0;
+
+	for (int i = 0; i < N; i++) {
+		for (auto &link : adj[i]) {
+			node_input[link.target] += H(link.lifetime) * link.weight;
+		}
+	}
+}
+
+void Simulation::updateNodes()
+{
+    //--------------------------------------------------
+	// (3) Update node states
+	//--------------------------------------------------
+	for (int i = 0; i < N; i++) {
+		int term1 = H(node_input[i] - D);
+		int term2 = 0;
+
+		/*/ activation because of external input at each time step
+		double r = rand()/double(RAND_MAX);
+		term2 = (1- H(node_input[i] - D)) * H(eta-r);*/
+
+		node_state[i] = term1 + term2;
+	}
+}
 
 void Simulation::run()
 {
     for (int t = 1; t <= tmax; t++) {
-		//--------------------------------------------------
-		// (1) Update link lifetime
-		//--------------------------------------------------
-		for (int i = 0; i < N; i++) {
-			int Tmax = (i < N_E) ? TE : TI;
-			for (auto &link : adj[i]) {
-				int term1 = H(link.lifetime) * (link.lifetime - 1);
-				int term2 = (1 - H(link.lifetime)) * Tmax * node_state[i];
-				link.lifetime = (term1 + term2);
-			}
-		}
 
-		//--------------------------------------------------
-		// (2) Compute inputs
-		//--------------------------------------------------
-		for (int i = 0; i < N; i++)
-			node_input[i] = 0;
+		updateLinks();
 
-		for (int i = 0; i < N; i++) {
-			for (auto &link : adj[i]) {
-				node_input[link.target] += H(link.lifetime) * link.weight;
-			}
-		}
+		computeInputs();
 
-		//--------------------------------------------------
-		// (3) Update node states
-		//--------------------------------------------------
-		for (int i = 0; i < N; i++) {
-			int term1 = H(node_input[i] - D);
-			int term2 = 0;
-
-			/*/ activation because of external input at each time step
-			double r = rand()/double(RAND_MAX);
-			term2 = (1- H(node_input[i] - D)) * H(eta-r);*/
-
-			node_state[i] = term1 + term2;
-		}
+		updateNodes()
 
 		//--------------------------------------------------
 		// (4) Output activity
