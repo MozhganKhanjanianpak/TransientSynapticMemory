@@ -71,3 +71,56 @@ void Simulation::buildNetwork()
         }
     }
 }
+
+/////////////////////////////////////////////////////////////
+//
+// STEP 2
+//
+// Initialize neuronal activity
+//
+// Randomly activates a fraction eta of excitatory
+// and inhibitory neurons at t = 0.
+//
+/////////////////////////////////////////////////////////////
+
+void Simulation::initializeNetwork()
+{
+    int N_E = int(N * E);
+
+    int N_E_0 = int(N_E * eta);
+    int N_I_0 = int((N - N_E) * eta);
+
+    //--------------------------------------------------
+    // Random activation of excitatory neurons
+    //--------------------------------------------------
+
+    int counter = 0;
+
+    while(counter < N_E_0)
+    {
+        int neuron = rand() % N_E;
+
+        if(node_state[neuron]==0)
+        {
+            node_state[neuron]=1;
+            counter++;
+        }
+    }
+
+    //--------------------------------------------------
+    // Random activation of inhibitory neurons
+    //--------------------------------------------------
+
+    counter = 0;
+
+    while(counter < N_I_0)
+    {
+        int neuron = rand() % (N-N_E);
+
+        if(node_state[N-neuron-1]==0)
+        {
+            node_state[N-neuron-1]=1;
+            counter++;
+        }
+    }
+}
