@@ -1,14 +1,12 @@
 #include "simulation.h"
+#include <algorithm>
 
 Simulation::Simulation()
 {
     total_link = 0;
 
-    for(int i=0;i<N;i++)
-    {
-        node_state[i]=0;
-        node_input[i]=0;
-    }
+    std::fill(node_state, node_state + N, 0);
+    std::fill(node_input, node_input + N, 0);
 }
 
 /////////////////////////////////////////////////////////////
