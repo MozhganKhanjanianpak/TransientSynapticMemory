@@ -20,30 +20,12 @@ int main() {
 	int N_E = N * E;
 	int t = 0;
 
-	//--------------------------------------------------
-	// (1) Build ER network (SPARSE)
-	//--------------------------------------------------
-	int total_link = 0;
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			if (i == j) continue;
-			double r = rand() / double(RAND_MAX);
-			if (r < p) {
-				Link link;
-				link.target = j;
-				link.lifetime = 0;
 
-				total_link++;
+	
+	simulation.buildNetwork();
 
-				if (i < N_E)
-					link.weight = W0E;   // Excitatory
-				else
-					link.weight = W0I;   // Inhibitory
 
-				adj[i].push_back(link);
-			}
-		}
-	}
+	
 
 	//--------------------------------------------------
 	// Initial activation
