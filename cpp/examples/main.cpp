@@ -10,6 +10,8 @@ using namespace std;
 //--------------------------------------------------
 int main() {
 
+	Simulation simulation;
+
 	ofstream output("ActivityInTime.txt");
 	ofstream output_active_nodes_at_t("ActiveNodesInTime.txt");
 
