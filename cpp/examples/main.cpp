@@ -11,21 +11,19 @@ using namespace std;
 int main() {
 
 	Simulation simulation;
+	
+	simulation.buildNetwork();
 
+
+
+	
 	ofstream output("ActivityInTime.txt");
 	ofstream output_active_nodes_at_t("ActiveNodesInTime.txt");
 
 	srand(time(NULL));
 
 	int N_E = N * E;
-	int t = 0;
-
-
-	
-	simulation.buildNetwork();
-
-
-	
+	int t = 0;	
 
 	//--------------------------------------------------
 	// Initial activation
