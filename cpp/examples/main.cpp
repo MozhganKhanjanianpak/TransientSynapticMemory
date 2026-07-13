@@ -14,7 +14,7 @@ int main() {
 	
 	simulation.buildNetwork();
 
-
+	simulation.initializeNetwork();
 
 	
 	ofstream output("ActivityInTime.txt");
@@ -24,35 +24,6 @@ int main() {
 
 	int N_E = N * E;
 	int t = 0;	
-
-	//--------------------------------------------------
-	// Initial activation
-	//--------------------------------------------------
-	// Initial eta as a uniform random number
-	int N_E_0 = N_E * eta;
-	int N_I_0 = (N - N_E) * eta;
-	
-	// Random activation -------------------------------
-	// Excitatory nodes
-	int N_E_0_counter = 0;
-	while (N_E_0_counter < N_E_0) {
-		int rand_E_node = rand()%N_E;
-		if (node_state[rand_E_node] == 0) {
-			node_state[rand_E_node] = 1;
-			N_E_0_counter++;
-		}
-	}
-
-	// Inhibitory nodes
-	int N_I_0_counter = 0;
-	while (N_I_0_counter < N_I_0)
-	{
-		int rand_I_node = rand()%(N - N_E);
-		if (node_state[N - rand_I_node - 1] == 0) {
-			node_state[N - rand_I_node - 1] = 1;
-			N_I_0_counter++;
-		}
-	}//*/
 
 
 	// Output at t=0 ----------------------------------
