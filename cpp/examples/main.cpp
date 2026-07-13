@@ -1,3 +1,12 @@
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+
+#include "../include/simulation.h"
+
+using namespace std;
+
 //--------------------------------------------------
 int main() {
 
