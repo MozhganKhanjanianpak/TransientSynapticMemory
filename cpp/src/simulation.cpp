@@ -3,6 +3,8 @@
 
 Simulation::Simulation()
 {
+    N_E = static_cast<int>(N * E);
+
     total_link = 0;
 
     std::fill(node_state, node_state + N, 0);
@@ -34,8 +36,6 @@ Simulation::Simulation()
 
 void Simulation::buildNetwork()
 {
-    int N_E = int(N * E);
-
     total_link = 0;
 
     for (int i = 0; i < N; i++)
@@ -83,8 +83,6 @@ void Simulation::buildNetwork()
 
 void Simulation::initializeNetwork()
 {
-    int N_E = int(N * E);
-
     int N_E_0 = int(N_E * eta);
     int N_I_0 = int((N - N_E) * eta);
 
@@ -177,37 +175,13 @@ void Simulation::updateNodes()
 	}
 }
 
-void Output::writeActivity(
-    int t,
-    double rho,
-    double phiE,
-    double phiI
-)
-{
-    activityFile
-        << t << '\t'
-        << rho << '\t'
-        << phiE << '\t'
-        << phiI
-        << '\n';
-}
-
-void Output::writeActiveNodes(
-    int t,
-    const std::vector<int>& activeNodes
-)
-{
-    activeNodesFile << t;
-
-    for(int neuron : activeNodes)
-        activeNodesFile << '\t' << neuron;
-
-    activeNodesFile << '\n';
-}
-
 void Simulation::run()
 {
     for (int t = 1; t <= tmax; t++) {
+
+		buildNetwork();
+
+		initializeNetwork();
 
 		updateLinks();
 
