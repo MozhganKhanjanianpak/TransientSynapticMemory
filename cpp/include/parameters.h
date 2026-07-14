@@ -1,6 +1,16 @@
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 
+inline int H(int z)
+{
+    return (z > 0) ? 1 : 0;
+}
+
+inline int H(double z)
+{
+    return (z > 0.0) ? 1 : 0;
+}
+
 /////////////////////////////////////////////////////////////
 //
 // Model parameters
