@@ -113,6 +113,25 @@ void Simulation::initializeNetwork()
 
 /////////////////////////////////////////////////////////////
 //
+// Reset network state before each realization
+//
+/////////////////////////////////////////////////////////////
+
+void Simulation::resetNetwork()
+{
+    for(int i=0; i<N; i++)
+    {
+        node_state[i] = 0;
+
+        node_input[i] = 0;
+
+        for(auto& link : adj[i])
+            link.lifetime = 0;
+    }
+}
+
+/////////////////////////////////////////////////////////////
+//
 // STEP 3
 //
 // Update synaptic lifetimes
@@ -215,129 +234,93 @@ void Simulation::saveSnapshot()
 //
 // STEP 6
 //
-// Run simulation
+// Run ensemble simulation
 //
 /////////////////////////////////////////////////////////////
 
 void Simulation::run()
 {
     //------------------------------------------------------
-    // Build network
+    // Build one network
     //------------------------------------------------------
 
     buildNetwork();
 
     //------------------------------------------------------
-    // Initial activation
+    // Ensemble
     //------------------------------------------------------
 
-    initializeNetwork();
-
-    //------------------------------------------------------
-    // Output at t = 0
-    //------------------------------------------------------
-
+    for(int e = 0; e < ens; e++)
     {
-        int active = 0;
+        //--------------------------------------------------
+        // Reset network state
+        //--------------------------------------------------
 
-        for (int i = 0; i < N; i++)
-            active += node_state[i];
+        resetNetwork();
 
-        output.writeActivity(
-            0,
-            active / double(N),
-            0.0,
-            0.0
-        );
+        //--------------------------------------------------
+        // Initial activation
+        //--------------------------------------------------
 
-        std::vector<int> activeNodes;
+        initializeNetwork();
 
-        for (int i = 0; i < N; i++)
+        snapshotSaved = false;
+
+        //--------------------------------------------------
+        // Output at t = 0
+        //--------------------------------------------------
+
         {
-            if (node_state[i] == 1)
-                activeNodes.push_back(i);
-        }
+            int active = 0;
 
-        output.writeActiveNodes(
-            0,
-            activeNodes
-        );
-    }
+            for(int i=0; i<N; i++)
+                active += node_state[i];
 
-    //------------------------------------------------------
-    // Main dynamics
-    //------------------------------------------------------
+            output.writeActivity(
+                0,
+                active/double(N),
+                0.0,
+                0.0
+            );
 
-    for (int t = 1; t <= tmax; t++)
-    {
-        //----------------------------------------------
-        // Update network
-        //----------------------------------------------
+            std::vector<int> activeNodes;
 
-        updateLinks();
-
-        computeInputs();
-
-        updateNodes();
-
-        //----------------------------------------------
-        // Compute global observables
-        //----------------------------------------------
-
-        int active = 0;
-
-        for (int i = 0; i < N; i++)
-            active += node_state[i];
-
-        int active_link_E = 0;
-        int active_link_I = 0;
-
-        for (int i = 0; i < N; i++)
-        {
-            for (auto& link : adj[i])
+            for(int i=0; i<N; i++)
             {
-                if (i < N_E)
-                    active_link_E += H(link.lifetime);
-                else
-                    active_link_I += H(link.lifetime);
+                if(node_state[i])
+                    activeNodes.push_back(i);
             }
+
+            output.writeActiveNodes(
+                0,
+                activeNodes
+            );
         }
 
-        double rho =
-            active / double(N);
+        //--------------------------------------------------
+        // Time evolution
+        //--------------------------------------------------
 
-        double phiE =
-            active_link_E / double(total_link);
-
-        double phiI =
-            active_link_I / double(total_link);
-
-        //----------------------------------------------
-        // Write activity
-        //----------------------------------------------
-
-        output.writeActivity(
-            t,
-            rho,
-            phiE,
-            phiI
-        );
-
-        //----------------------------------------------
-        // Store active neurons
-        //----------------------------------------------
-
-        std::vector<int> activeNodes;
-
-        for (int i = 0; i < N; i++)
+        for(int t=1; t<=tmax; t++)
         {
-            if (node_state[i] == 1)
-                activeNodes.push_back(i);
-        }
+            updateLinks();
 
-        output.writeActiveNodes(
-            t,
-            activeNodes
-        );
+            computeInputs();
+
+            updateNodes();
+
+            //------------------------------------------
+            // Snapshot
+            //------------------------------------------
+
+            // (later)
+
+            //------------------------------------------
+            // Output
+            //------------------------------------------
+
+            // (later)
+        }
     }
 }
+
