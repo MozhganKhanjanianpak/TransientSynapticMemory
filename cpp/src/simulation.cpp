@@ -177,6 +177,34 @@ void Simulation::updateNodes()
 	}
 }
 
+void Output::writeActivity(
+    int t,
+    double rho,
+    double phiE,
+    double phiI
+)
+{
+    activityFile
+        << t << '\t'
+        << rho << '\t'
+        << phiE << '\t'
+        << phiI
+        << '\n';
+}
+
+void Output::writeActiveNodes(
+    int t,
+    const std::vector<int>& activeNodes
+)
+{
+    activeNodesFile << t;
+
+    for(int neuron : activeNodes)
+        activeNodesFile << '\t' << neuron;
+
+    activeNodesFile << '\n';
+}
+
 void Simulation::run()
 {
     for (int t = 1; t <= tmax; t++) {
