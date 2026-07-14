@@ -7,13 +7,19 @@
 //
 // Link
 //
-// Represents a directed synaptic connection.
+// Represents a directed synaptic connection between two
+// neurons in the network.
+//
+// target:
+//      Index of the postsynaptic neuron.
 //
 // weight:
-//      Synaptic weight
+//      Synaptic efficacy
+//      (+ for excitatory, - for inhibitory).
 //
 // lifetime:
-//      Remaining active lifetime of the synapse.
+//      Remaining active duration (simulation steps)
+//      before the synapse becomes inactive.
 //
 /////////////////////////////////////////////////////////////
 
