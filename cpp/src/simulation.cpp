@@ -213,7 +213,11 @@ void Simulation::run()
 
 		computeInputs();
 
-		updateNodes()
+		updateNodes();
+
+		output.writeActivity(...);
+
+		output.writeActiveNodes(...);
 
 		//--------------------------------------------------
 		// (4) Output activity
