@@ -215,39 +215,28 @@ void Simulation::run()
 
 		updateNodes();
 
-		output.writeActivity(...);
+		double rho = active / double(N);
+		double phiE = active_link_E / double(total_link);
+		double phiI = active_link_I / double(total_link);
+		
+		output.writeActivity(
+    		t,
+    		rho,
+    		phiE,
+    		phiI
+		);
 
-		output.writeActiveNodes(...);
-
-		//--------------------------------------------------
-		// (4) Output activity
-		//--------------------------------------------------
-		active = 0;
-		for (int i = 0; i < N; i++)
-			active += node_state[i];
-
-		// Rho at t
-		output << t << "\t" << active / N << "\t";
-
-		// Phi at t
-		int active_link_E = 0;
-		int active_link_I = 0;
-		for (int i = 0; i < N; i++) {
-			for (auto &link : adj[i]) {
-				if (i < N_E)
-					active_link_E += H(link.lifetime);
-				else
-					active_link_I += H(link.lifetime);
-			}
+		std::vector<int> activeNodes;
+		for(int i=0; i<N; i++)
+		{
+    		if(node_state[i]==1)
+        		activeNodes.push_back(i);
 		}
-		output << active_link_E/double(total_link) << "\t" << active_link_I/double(total_link) << endl;
 
-		// output active nodes at t
-		output_active_nodes_at_t << t << "\t";
-		for (int i=0 ; i<N ; i++)
-			if (node_state[i]==1)
-				output_active_nodes_at_t << i << "\t";
-		output_active_nodes_at_t << endl;
+		output.writeActiveNodes(
+    		t,
+    		activeNodes
+		);
 	}
 }
 
