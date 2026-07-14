@@ -28,6 +28,8 @@ public:
 
 private:
 
+    Output output;
+
     // Network
     std::vector<Link> adj[N];
 
