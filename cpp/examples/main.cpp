@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "../include/simulation.h"
+#include "simulation.h"
 
 int main()
 {
