@@ -9,10 +9,6 @@ int main()
 
     Simulation simulation;
 
-    simulation.buildNetwork();
-
-    simulation.initializeNetwork();
-
     simulation.run();
 
     return 0;
