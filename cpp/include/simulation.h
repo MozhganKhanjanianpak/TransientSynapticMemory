@@ -4,6 +4,7 @@
 #include <vector>
 #include "network.h"
 #include "parameters.h"
+#include "output.h"
 
 class Simulation
 {
