@@ -44,6 +44,24 @@ public:
         const std::vector<int>& activeNodes
     );
 
+
+    void writePotential(
+        int tau,
+        const std::vector<double>& potentials
+    );
+
+    void writeGhostNodes(
+        int tau,
+        const std::vector<int>& ghostNodes
+    );
+
+    void writeActiveNodesTau(
+        int tau,
+        const std::vector<int>& activeNodesTau
+    );
+
+    
+
 private:
 
     /////////////////////////////////////////////////////////////
@@ -53,6 +71,12 @@ private:
     std::ofstream activityFile;
 
     std::ofstream activeNodesFile;
+
+    std::ofstream potentialFile;
+
+    std::ofstream ghostNodesFile;
+
+    std::ofstream activeNodesTauFile;
 };
 
 #endif
