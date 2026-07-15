@@ -1,6 +1,8 @@
 #include "output.h"
-
 #include <stdexcept>
+#include "output.h"
+#include <stdexcept>
+#include <string>
 
 /////////////////////////////////////////////////////////////
 //
@@ -9,7 +11,7 @@
 /////////////////////////////////////////////////////////////
 
 Output::Output()
-{
+{/*
     activityFile.open("ActivityInTime.txt");
 
     if(!activityFile.is_open())
@@ -33,7 +35,7 @@ Output::Output()
     activeNodesTauFile.open("ActiveNodesInTau.txt");
 
     if(!activeNodesTauFile.is_open())
-        throw std::runtime_error("Cannot open ActiveNodesInTau.txt");
+        throw std::runtime_error("Cannot open ActiveNodesInTau.txt");*/
 }
 
 /////////////////////////////////////////////////////////////
@@ -43,6 +45,17 @@ Output::Output()
 /////////////////////////////////////////////////////////////
 
 Output::~Output()
+{
+    closeFiles();
+}
+
+/////////////////////////////////////////////////////////////
+//
+// Close all output files
+//
+/////////////////////////////////////////////////////////////
+
+void Output::closeFiles()
 {
     if(activityFile.is_open())
         activityFile.close();
@@ -58,6 +71,62 @@ Output::~Output()
 
     if(activeNodesTauFile.is_open())
         activeNodesTauFile.close();
+}
+
+/////////////////////////////////////////////////////////////
+//
+// Open output files for one realization
+//
+/////////////////////////////////////////////////////////////
+
+void Output::openFiles(int realizationID)
+{
+    closeFiles();
+
+    activityFile.open(
+        "ActivityInTime_" +
+        std::to_string(realizationID) +
+        ".txt"
+    );
+
+    activeNodesFile.open(
+        "ActiveNodesInTime_" +
+        std::to_string(realizationID) +
+        ".txt"
+    );
+
+    potentialFile.open(
+        "PotentialReactivation_" +
+        std::to_string(realizationID) +
+        ".txt"
+    );
+
+    ghostNodesFile.open(
+        "GhostNodesInTau_" +
+        std::to_string(realizationID) +
+        ".txt"
+    );
+
+    activeNodesTauFile.open(
+        "ActiveNodesInTau_" +
+        std::to_string(realizationID) +
+        ".txt"
+    );
+
+    if(!activityFile.is_open())
+        throw std::runtime_error("Cannot open ActivityInTime file.");
+
+    if(!activeNodesFile.is_open())
+        throw std::runtime_error("Cannot open ActiveNodesInTime file.");
+
+    if(!potentialFile.is_open())
+        throw std::runtime_error("Cannot open PotentialReactivation file.");
+
+    if(!ghostNodesFile.is_open())
+        throw std::runtime_error("Cannot open GhostNodesInTau file.");
+
+    if(!activeNodesTauFile.is_open())
+        throw std::runtime_error("Cannot open ActiveNodesInTau file.");
 }
 
 /////////////////////////////////////////////////////////////
