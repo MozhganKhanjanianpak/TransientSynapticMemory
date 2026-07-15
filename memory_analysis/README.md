@@ -121,7 +121,7 @@ sample_snapshot_data/
 
 ## sample_output/
 
-Contains a sample ensemble simulation.
+Contains a sample single-run output, to be used by analyse_single_run.ipynb, and a ensemble simulation.  
 
 These files allow the user to execute all notebooks immediately without running the C++ simulations.
 
