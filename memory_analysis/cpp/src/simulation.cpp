@@ -227,7 +227,20 @@ void Simulation::updateNodes()
 
 void Simulation::saveSnapshot()
 {
+    for(int tau = 0; tau <= TI; tau++)
+    {
+        //--------------------------------------------------
+        // Compute node_input_tau
+        //--------------------------------------------------
 
+        std::fill(
+            node_input_tau,
+            node_input_tau + N,
+            0
+        );
+
+        // ادامه بعداً...
+    }
 }
 
 /////////////////////////////////////////////////////////////
@@ -252,6 +265,8 @@ void Simulation::run()
 
     for(int e = 0; e < ens; e++)
     {
+        output.openFiles(e + 1);
+        
         //--------------------------------------------------
         // Reset network state
         //--------------------------------------------------
@@ -321,6 +336,8 @@ void Simulation::run()
 
             // (later)
         }
+
+        output.closeFiles();
     }
 }
 
