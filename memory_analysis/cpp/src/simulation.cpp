@@ -258,10 +258,10 @@ void Simulation::saveSnapshot()
         //--------------------------------------------------
 
         std::vector<double> potentials;
+        potentials.reserve(N);
 
         std::vector<int> activeNodesTau;
-
-        potentials.reserve(N);
+        activeNodesTau.reserve(N);
 
         for(int i = 0; i < N; i++)
         {
@@ -285,12 +285,17 @@ void Simulation::saveSnapshot()
         // Store ghost neurons
         //--------------------------------------------------
         //--------------------------------------------------
-        // A neuron is considered a ghost neuron if at least
-        // one outgoing synapse remains active after tau.
-        // This follows the definition used in the manuscript.
+        // Ghost neurons are identified using the same
+        // criterion employed in the manuscript:
+        //
+        //     H( Σ_j (L_ij - τ) )
+        //
+        // where L_ij denotes the remaining lifetime of the
+        // outgoing synapses.
         //--------------------------------------------------
-
+        
         std::vector<int> ghostNodes;
+        ghostNodes.reserve(N);
 
         for(int i = 0; i < N; i++)
         {
@@ -368,6 +373,7 @@ void Simulation::run()
             );
 
             std::vector<int> activeNodes;
+            activeNodes.reserve(N);
 
             for(int i=0; i<N; i++)
             {
@@ -451,12 +457,7 @@ void Simulation::run()
                 t,
                 activeNodes
             );
-
-            //------------------------------------------
-            // Output
-            //------------------------------------------
-
-            // (later)
+            
         }
 
         output.closeFiles();
