@@ -69,7 +69,19 @@ parameters.h
 
 The notebooks are intended to be executed sequentially.
 
-### 1. build_summary_tables.ipynb
+### 1. analyse_single_run.ipynb
+
+Uses a single simulation outputs to generate
+
+- activity time series,
+- current histograms,
+- fresh/ghost neuron statistics,
+
+corresponding to the single-realization figures in Figures 3-4.
+
+---
+
+### 2. build_summary_tables.ipynb
 
 Processes the raw simulation outputs and generates
 
@@ -82,7 +94,7 @@ These summary tables are subsequently used by the remaining notebooks.
 
 ---
 
-### 2. analyze_ensemble.ipynb
+### 3. analyze_ensemble.ipynb
 
 Uses
 
@@ -95,7 +107,7 @@ to reproduce the ensemble statistics shown in **Figure 5 (panels a–d)** of the
 
 ---
 
-### 3. figure6_panels_ej.ipynb
+### 4. figure6_panels_ej.ipynb
 
 Reproduces the snapshot-current analysis shown in **Figure 6 (panels e–j)**.
 
@@ -119,9 +131,7 @@ Users may replace these files with outputs generated using their own ensemble si
 
 ## sample_snapshot_data/
 
-The snapshot-current analysis shown in Figure 6 requires storing the full potential reactivation current of every neuron.
-
-Since these files are considerably larger than the summary statistics, representative datasets are provided here as examples.
+The snapshot-current analysis shown in Figure 5(e-j) requires two special cases of the potential reactivation current with same R_E but different states of one-cycle and multi-cycle. Representative datasets are provided here as examples.
 
 Two examples are included:
 
@@ -129,15 +139,15 @@ Two examples are included:
 one_cycle/
 ```
 
-A realization producing a single activity cycle.
+A realization producing a single activity cycle with R_E=10.
 
 ```
 multi_cycle/
 ```
 
-A realization producing sustained multi-cycle activity.
+A realization producing sustained multi-cycle activity with R_E=10.
 
-These datasets are used exclusively for reproducing the snapshot analyses presented in Figure 6.
+These datasets are used exclusively for reproducing the snapshot analyses presented in Figure 5(e-j).
 
 ---
 
