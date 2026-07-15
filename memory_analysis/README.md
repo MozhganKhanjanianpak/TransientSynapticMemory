@@ -71,7 +71,7 @@ The notebooks are intended to be executed sequentially.
 
 ### 1. analyse_single_run.ipynb
 
-Uses a single simulation outputs to generate
+Uses a single-run outputs to generate
 
 - activity time series,
 - current histograms,
@@ -107,9 +107,9 @@ to reproduce the ensemble statistics shown in **Figure 5 (panels a–d)** of the
 
 ---
 
-### 4. figure6_panels_ej.ipynb
+### 4. figure5_panels_ej.ipynb
 
-Reproduces the snapshot-current analysis shown in **Figure 6 (panels e–j)**.
+Reproduces the snapshot-current analysis shown in **Figure 5 (panels e–j)**.
 
 This notebook uses the example snapshot datasets contained in
 
