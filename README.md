@@ -9,6 +9,10 @@ The project provides an implementation of the transient synaptic memory model in
 
 ---
 
+The repository is organized as a step-by-step workflow rather than a collection of scripts. Each directory corresponds to one stage of the analysis pipeline described in the manuscript.
+
+---
+
 ## Repository structure
 
 ```
