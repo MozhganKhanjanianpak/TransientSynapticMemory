@@ -137,6 +137,12 @@ Paper information will be added after publication.
 
 ---
 
+Associated preprint:
+
+https://arxiv.org/abs/2607.xxxxx
+
+---
+
 ## Contact
 
 Mozhgan Khanjanianpak
