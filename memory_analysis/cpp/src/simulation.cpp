@@ -239,7 +239,76 @@ void Simulation::saveSnapshot()
             0
         );
 
-        // ادامه بعداً...
+        //--------------------------------------------------
+        // Compute potential reactivation current
+        //--------------------------------------------------
+
+        for(int i = 0; i < N; i++)
+        {
+            for(auto& link : adj[i])
+            {
+                node_input_tau[link.target] +=
+                    H(link.lifetime - tau) *
+                    link.weight;
+            }
+        }
+
+        //--------------------------------------------------
+        // Store potential and active neurons
+        //--------------------------------------------------
+
+        std::vector<double> potentials;
+
+        std::vector<int> activeNodesTau;
+
+        potentials.reserve(N);
+
+        for(int i = 0; i < N; i++)
+        {
+            potentials.push_back(node_input_tau[i]);
+
+            if(H(node_input_tau[i] - D))
+                activeNodesTau.push_back(i);
+        }
+
+        output.writePotential(
+            tau,
+            potentials
+        );
+
+        output.writeActiveNodesTau(
+            tau,
+            activeNodesTau
+        );
+
+        //--------------------------------------------------
+        // Store ghost neurons
+        //--------------------------------------------------
+        //--------------------------------------------------
+        // A neuron is considered a ghost neuron if at least
+        // one outgoing synapse remains active after tau.
+        // This follows the definition used in the manuscript.
+        //--------------------------------------------------
+
+        std::vector<int> ghostNodes;
+
+        for(int i = 0; i < N; i++)
+        {
+            int sum = 0;
+
+            for(auto& link : adj[i])
+            {
+                sum += (link.lifetime - tau);
+            }
+
+            if(H(sum))
+                ghostNodes.push_back(i);
+        }
+
+        output.writeGhostNodes(
+            tau,
+            ghostNodes
+        );
     }
 }
 
@@ -324,11 +393,64 @@ void Simulation::run()
 
             updateNodes();
 
-            //------------------------------------------
-            // Snapshot
-            //------------------------------------------
+            //--------------------------------------------------
+            // Save snapshot at the first extinction time
+            //--------------------------------------------------
 
-            // (later)
+            int active = 0;
+
+            for(int i = 0; i < N; i++)
+                active += node_state[i];
+
+            if(active == 0 && !snapshotSaved)
+            {
+                saveSnapshot();
+
+                snapshotSaved = true;
+            }
+
+            int active_link_E = 0;
+            int active_link_I = 0;
+
+            for(int i = 0; i < N; i++)
+            {
+                for(auto& link : adj[i])
+                {
+                    if(i < N_E)
+                        active_link_E += H(link.lifetime);
+                    else
+                        active_link_I += H(link.lifetime);
+                }
+            }
+
+            double rho =
+                active / double(N);
+
+            double phiE =
+                active_link_E / double(total_link);
+
+            double phiI =
+                active_link_I / double(total_link);
+
+            output.writeActivity(
+                t,
+                rho,
+                phiE,
+                phiI
+            );
+
+            std::vector<int> activeNodes;
+
+            for(int i = 0; i < N; i++)
+            {
+                if(node_state[i])
+                    activeNodes.push_back(i);
+            }
+
+            output.writeActiveNodes(
+                t,
+                activeNodes
+            );
 
             //------------------------------------------
             // Output
