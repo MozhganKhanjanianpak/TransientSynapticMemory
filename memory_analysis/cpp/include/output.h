@@ -70,10 +70,6 @@ public:
         const std::vector<int>& activeNodesTau
     );
 
-    void openFiles(int realizationID);
-
-    void closeFiles();
-
 private:
 
     /////////////////////////////////////////////////////////////
