@@ -1,102 +1,125 @@
-# Transient Synaptic Memory in Random Neuronal Networks
+# Transient Synaptic Memory Generates Self-Sustained Activity
 
-This repository contains the reference implementation accompanying the manuscript
+This repository contains the simulation code and analysis scripts accompanying the paper
 
-> **Transient Synaptic Memory Determines the Future Evolution of Random Neuronal Networks**
-> *(under review)*
+> **Transient Synaptic Memory Generates Self-Sustained Activity from Random Initial Activation**
+> *(under review / accepted in ...)*
 
-The repository includes the C++ implementation of the neuronal network model, Python scripts used for analysis and visualization, and sample simulation outputs.
+The project provides an implementation of the transient synaptic memory model introduced in the manuscript together with the Python notebooks required to reproduce the main figures.
+
+---
+
+## Repository structure
+
+```
+Repository
+│
+├── basic_dynamics/
+│   ├── cpp/
+│   ├── python/
+│   ├── sample_output/
+│   └── README.md
+│
+├── memory_analysis/
+│   ├── cpp/
+│   ├── python/
+│   ├── sample_output/
+│   └── README.md
+│
+└── README.md
+```
 
 ---
 
 ## Overview
 
-This work investigates how transient synaptic memory influences the future evolution of neuronal activity in homogeneous random networks.
+The repository is divided into two independent parts.
 
-Although all simulations are performed on structurally identical Erdős–Rényi networks, different realizations of the initial activity may evolve toward either
+### 1. Basic dynamics
 
-- one-cycle dynamics
-- multi-cycle dynamics
+This part reproduces the deterministic dynamics of a **single realization** of the model.
 
-The central finding is that this difference is not determined by network topology, but by the latent synaptic-memory state remaining after the first activity cycle.
+It allows the user to
 
----
-
-## Repository Structure
-TransientSynapticMemory/
-│
-├── cpp/ # C++ implementation of the model
-│ ├── examples/
-│ ├── include/
-│ └── src/
-│
-├── python/ # Analysis and plotting scripts
-│
-├── sample_data/ # Example simulation outputs
-│
-├── figures/ # Figures generated from sample data
-│
-├── docs/ # Additional documentation
-│
-└── README.md
-
+- generate a random directed Erdős–Rényi network,
+- simulate the transient synaptic dynamics,
+- save the activity and snapshot data,
+- reproduce the figures illustrating single realizations (Figure 2 of the manuscript).
 
 ---
 
-## Model
+### 2. Memory analysis
 
-The model implements a directed excitatory–inhibitory random neuronal network with finite-lifetime synapses.
+This part performs ensemble simulations and statistical analyses.
 
-Main characteristics:
+It allows the user to
 
-- Directed Erdős–Rényi network
-- 80% excitatory neurons
-- 20% inhibitory neurons
-- Discrete-time dynamics
-- Finite synaptic lifetimes
-- External input applied only at the initial time step
-
-All model parameters are defined in
-cpp/include/parameters.h
-
+- run multiple realizations,
+- extract summary statistics,
+- quantify fresh and ghost neurons,
+- reproduce the figures illustrating single realizations (Figures 3-4 of the manuscript).
+- reproduce the ensemble statistics presented in Figure 5.
 
 ---
 
-## Compilation
+## Software requirements
 
-The C++ code was tested using
+### C++
 
-- GCC 9+
-- Embarcadero Dev-C++ 6.3
+- C++17 (or newer)
+- Tested with
+  - GCC
+  - MSVC (Visual Studio)
 
-Compile all source files together.
+### Python
+
+The analysis notebooks use
+
+- numpy
+- scipy
+- matplotlib
+- jupyter
+
+They may be installed using
+
+```bash
+pip install numpy scipy matplotlib notebook
+```
 
 ---
 
-## Running the simulation
+## Running the simulations
 
-The main executable is
-cpp/examples/main.cpp
+Each part of the repository contains
 
+- C++ source code for generating simulation data,
+- Python notebooks for reproducing the figures.
 
-Running the program generates
-ActivityInTime.txt
-ActiveNodesInTime.txt
+The recommended workflow is
 
-
-which are subsequently analyzed using the Python scripts.
+```
+Compile C++ code
+        ↓
+Generate simulation data
+        ↓
+Run Jupyter notebook
+        ↓
+Reproduce figures
+```
 
 ---
 
-## Python analysis
+## Reproducibility
 
-The Python scripts reproduce the figures presented in the manuscript.
+All parameters used in the manuscript are defined in
 
-Typical dependencies include
+```
+parameters.h
+```
 
-- NumPy
-- Matplotlib
-- SciPy
+Changing these parameters allows the model to be simulated under different conditions.
+
+Sample datasets are included whenever generating the original data would require long simulation times.
 
 ---
 
@@ -104,6 +127,9 @@ Typical dependencies include
 
 If you use this code, please cite
 
+```
+Paper information will be added after publication.
+```
 
 ---
 
@@ -111,9 +137,6 @@ If you use this code, please cite
 
 Mozhgan Khanjanianpak
 
-Postdoctoral Researcher
-
 Institute for Advanced Studies in Basic Sciences (IASBS)
 
-Email:
-<your email>
+Email: <your email>
