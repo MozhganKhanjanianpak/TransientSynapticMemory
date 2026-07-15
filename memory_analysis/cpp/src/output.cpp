@@ -1,7 +1,5 @@
 #include "output.h"
 #include <stdexcept>
-#include "output.h"
-#include <stdexcept>
 #include <string>
 
 /////////////////////////////////////////////////////////////
@@ -11,31 +9,7 @@
 /////////////////////////////////////////////////////////////
 
 Output::Output()
-{/*
-    activityFile.open("ActivityInTime.txt");
-
-    if(!activityFile.is_open())
-        throw std::runtime_error("Cannot open ActivityInTime.txt");
-
-    activeNodesFile.open("ActiveNodesInTime.txt");
-
-    if(!activeNodesFile.is_open())
-        throw std::runtime_error("Cannot open ActiveNodesInTime.txt");
-
-    potentialFile.open("PotentialReactivation.txt");
-
-    if(!potentialFile.is_open())
-        throw std::runtime_error("Cannot open PotentialReactivation.txt");
-
-    ghostNodesFile.open("GhostNodesInTau.txt");
-
-    if(!ghostNodesFile.is_open())
-        throw std::runtime_error("Cannot open GhostNodesInTau.txt");
-
-    activeNodesTauFile.open("ActiveNodesInTau.txt");
-
-    if(!activeNodesTauFile.is_open())
-        throw std::runtime_error("Cannot open ActiveNodesInTau.txt");*/
+{
 }
 
 /////////////////////////////////////////////////////////////
