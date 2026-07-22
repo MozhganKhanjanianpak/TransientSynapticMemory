@@ -2,10 +2,10 @@
 
 This repository contains the simulation code and analysis scripts accompanying the paper
 
-> **Transient Synaptic Memory Generates Self-Sustained Activity from Random Initial Activation**
-> *(under review / accepted in ...)*
+> **Predicting Future Network Dynamics from Hidden Synaptic-State Snapshots**
+> *(under review)*
 
-The project provides an implementation of the transient synaptic memory model introduced in the manuscript together with the Python notebooks required to reproduce the main figures.
+The earlier arXiv preprint (arXiv:2607.14000) was posted under a previous title as "Activity Regeneration from Silent States in Neuronal Networks with Transient Synaptic Memory". The project provides an implementation of the transient synaptic memory model introduced in the manuscript together with the Python notebooks required to reproduce the main figures.
 
 ---
 
